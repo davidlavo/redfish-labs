@@ -1,0 +1,641 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Data Entry POC</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js" charset="utf-8"></script>
+
+    <style>
+        #measurement_container {
+            font-size: 1.25em;
+            text-align: center;
+
+            position: fixed;
+            right: 5%;
+            top: 25%;
+            width: 25%;
+            margin-top: -2.5em;
+        }
+
+        #data_reading_form {
+          width: 65%;
+          left: 5%;
+        }
+
+        #measurement_value,
+        #measurement_mode,
+        #measurement_units,
+        #measurement_min,
+        #measurement_max,
+        #measurement_ave {
+            font-size: 1.5em;
+            color: #000000;
+            background: transparent;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            padding-top: 0px;
+            padding-bottom: 0px;
+            display: inline;
+        }
+
+        #measurement_value {
+            font-size: 1.5em;
+            font-weight: bolder;
+        }
+
+        #measurement_mode,
+        #measurement_units {
+            font-size: 1.25em;
+            font-weight: normal;
+        }
+
+        .btn-action {
+          width: 100px;
+          margin-top: 30px;
+           margin-left: 10px;
+           margin-right: 20px;
+           margin-bottom: 10px;
+        }
+
+        #measurement_container tr {
+          line-height: 50px;
+        };
+
+    </style>
+
+</head>
+
+<body class="container">
+    <header>
+        <h1>Data Entry Proof of Concept</h1>
+    </header>
+
+    <section>
+        <div class="panel panel-default" id="measurement_container">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td>Mode:</td>
+                    <td>
+                        <p id="measurement_mode">Voltage-DC</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Value:</td>
+                    <td>
+                        <p id="measurement_value" class="value-link">0.00</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Units:</td>
+                    <td>
+                        <p id="measurement_units">V</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Min:</td>
+                    <td>
+                        <p id="measurement_min" class="value-link">0.00</p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Max:</td>
+                    <td>
+                        <p id="measurement_max" class="value-link">0.00</p>
+                    </td>
+                </tr>
+                <tr>
+
+                    <td>Ave:</td>
+                    <td>
+                        <p id="measurement_ave" class="value-link">0.00</p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </section>
+
+    <section>
+        <div class="panel panel-default" id="data_reading_form">
+            <div class="panel-body">
+                <form data-reading="form">
+
+                    <div class="form-group">
+                        <label for="readingId">Test Station ID/Equipment ID</label>
+                        <input class="form-control" name="readingId" id="readingId" autofocus>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="readingType">Reading Type</label>
+                        <select id="readingType" class="form-control" name="readingType">
+                          <option value="PS">PS</option>
+                          <option value="V">V</option>
+                          <option value="I">I</option>
+                          <option value="Foreign">Foreign</option>
+                          <option value="C">C</option>
+                          <option value="R">R</option>
+                          <option value="P">P</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="readingOn">ON</label>
+                        <input class="form-control measurement_input" name="readingOn" id="readingOn" readonly autofocus>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="readingOff">OFF</label>
+                        <input class="form-control measurement_input" name="readingOff" id="readingOff" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="readingRemarks">Remarks</label>
+                        <input class="form-control" name="readingRemarks" id="readingRemarks" autofocus>
+                    </div>
+
+                    <button type="submit" class="btn btn-default btn-action">Record</button>
+                    <button type="reset" class="btn btn-default btn-action">Reset</button>
+                </form>
+            </div>
+        </div>
+
+    </section>
+
+    <section>
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h4>Collected Readings:</h4>
+          <div data-reading="checklist">
+          </div>
+          <button id="submitSurvey" type="button" class="btn btn-default btn-action">Submit</button>
+          <button id="clearSurvey" type="button" class="btn btn-default btn-action">Clear</button>
+        </div>
+      </div>
+    </section>
+
+    <script>
+
+        var currentMode = "";
+        var currentValue = undefined;
+        var currentMin = undefined;
+        var currentMax = undefined;
+        var currentAve = undefined;
+        var sampleCount = 0;
+        var lastFormControl = undefined;
+
+        var valueLinkStyle = {
+          cursor:"pointer",
+          color:"blue",
+          'text-decoration':"underline"
+        };
+        var valueNormalStyle = {
+          cursor:"none",
+          color:"black",
+          'text-decoration':"none"
+        };
+
+        document.querySelector('#submitSurvey').addEventListener('click', function(event) {
+            onSubmitSurveyButtonClick();
+        });
+
+        document.querySelector('#clearSurvey').addEventListener('click', function(event) {
+            onClearSurveyButtonClick();
+        });
+
+        $(".form-control").each(function () {
+          var control = this;
+          control.addEventListener('blur', function(event) {
+            lastFormControl = $(this);
+          });
+          control.addEventListener('focus', function(event) {
+            if ($(this).is('#readingOn') || $(this).is('#readingOff')) {
+              turnValueLinksOn(true);
+            } else {
+              turnValueLinksOn(false);
+            }
+          });
+        });
+
+        document.querySelector('#measurement_value').addEventListener('click', function(event) {
+            if (lastFormControl.is('#readingOn')) {
+              onValOnButtonClick();
+            } else if (lastFormControl.is('#readingOff')) {
+              onValOffButtonClick();
+            }
+        });
+
+        document.querySelector('#measurement_min').addEventListener('click', function(event) {
+            if (lastFormControl.is('#readingOn')) {
+              onMinOnButtonClick();
+            } else if (lastFormControl.is('#readingOff')) {
+              onMinOffButtonClick();
+            }
+        });
+
+        document.querySelector('#measurement_max').addEventListener('click', function(event) {
+            if (lastFormControl.is('#readingOn')) {
+              onMaxOnButtonClick();
+            } else if (lastFormControl.is('#readingOff')) {
+              onMaxOffButtonClick();
+            }
+        });
+
+        document.querySelector('#measurement_ave').addEventListener('click', function(event) {
+            if (lastFormControl.is('#readingOn')) {
+              onAveOnButtonClick();
+            } else if (lastFormControl.is('#readingOff')) {
+              onAveOffButtonClick();
+            }
+        });
+
+        function turnValueLinksOn(turnOn) {
+          $(".value-link").each(function () {
+            if (turnOn) {
+              $(this).css(valueLinkStyle);
+            } else {
+              $(this).css(valueNormalStyle);
+            }
+          });
+        }
+
+        function idvmNotification(jsonInfo) {
+          var data = JSON.parse(jsonInfo);
+          let displayValue = data["DisplayValue"];
+          let modeString = data["ModeString"];
+          let value = displayValue.split(" ")[0];
+          let units = displayValue.split(" ")[1];
+          document.getElementById('measurement_value').innerHTML = value;
+          document.getElementById('measurement_units').innerHTML = units;
+          updateMinMaxAve(modeString, value, units);
+          document.getElementById('measurement_min').innerHTML = currentMin.toFixed(2);
+          document.getElementById('measurement_max').innerHTML = currentMax.toFixed(2);
+          document.getElementById('measurement_ave').innerHTML = currentAve.toFixed(2);
+        };
+
+        function set_mode_and_value(modeString, displayValue) {
+            document.getElementById('measurement_mode').innerHTML = modeString;
+            let value = displayValue.split(" ")[0];
+            let units = displayValue.split(" ")[1];
+            document.getElementById('measurement_value').innerHTML = value;
+            document.getElementById('measurement_units').innerHTML = units;
+            updateMinMaxAve(modeString, value, units);
+            document.getElementById('measurement_min').innerHTML = currentMin.toFixed(2);
+            document.getElementById('measurement_max').innerHTML = currentMax.toFixed(2);
+            document.getElementById('measurement_ave').innerHTML = currentAve.toFixed(2);
+        };
+
+        function updateMinMaxAve(modeString, value, units) {
+            if (modeString !== currentMode) {
+              sampleCount = 0;
+              currentMin = undefined;
+              currentMax = undefined;
+              currentAve = undefined;
+              currentMode = modeString;
+            }
+            sampleCount++;
+            if (isNaN(value)) {
+              currentValue = value;
+              currentMin = currentMax = currentAve = NaN;
+            } else {
+              currentValue = value * multiplierForUnits(units);
+              if ((currentMin === undefined) || (!isNaN(currentMin) && (currentValue < currentMin))) {
+                currentMin = currentValue;
+              }
+              if ((currentMax === undefined) || (!isNaN(currentMax) && (currentValue > currentMax))) {
+                currentMax = currentValue;
+              }
+              if ((currentAve === undefined) || !isNaN(currentAve)) {
+                let prevAve = currentAve === undefined ? 0.0 : currentAve;
+                let diff = currentValue - prevAve;
+                let delta = diff / sampleCount;
+                currentAve = prevAve + delta;
+              }
+            }
+        };
+
+        function multiplierForUnits(units) {
+          var mult = 1.0;
+          if (units.startsWith("m")) {
+            mult = 0.001;
+          } else if (units.startsWith("µ")) {
+            mult = 0.000001;
+          } else if (units.startsWith("n")) {
+            mult = 0.000000001;
+          } else if (units.startsWith("p")) {
+            mult = 0.000000000001;
+          } else if (units.startsWith("K")) {
+            mult = 1000.0;
+          } else if (units.startsWith("M")) {
+            mult = 1000000.0;
+          }
+          return mult;
+        };
+
+        function onValOnButtonClick() {
+            let value = document.getElementById('measurement_value').innerHTML;
+            let units = document.getElementById('measurement_units').innerHTML;
+            $('[id=readingOn]').val(value + " " + units);
+            $('[name=voltage]').change();
+        };
+
+        function onMinOnButtonClick() {
+            let value = document.getElementById('measurement_min').innerHTML;
+            let units = document.getElementById('measurement_units').innerHTML;
+            $('[id=readingOn]').val(value + " " + units);
+            $('[id=readingOn]').change();
+        };
+
+        function onMaxOnButtonClick() {
+            let value = document.getElementById('measurement_max').innerHTML;
+            let units = document.getElementById('measurement_units').innerHTML;
+            $('[id=readingOn]').val(value + " " + units);
+            $('[id=readingOn]').change();
+        };
+
+        function onAveOnButtonClick() {
+            let value = document.getElementById('measurement_ave').innerHTML;
+            let units = document.getElementById('measurement_units').innerHTML;
+            $('[id=readingOn]').val(value + " " + units);
+            $('[id=readingOn]').change();
+        };
+
+        function onValOffButtonClick() {
+            let value = document.getElementById('measurement_value').innerHTML;
+            let units = document.getElementById('measurement_units').innerHTML;
+            $('[id=readingOff]').val(value + " " + units);
+            $('[id=readingOff]').change();
+        };
+
+        function onMinOffButtonClick() {
+            let value = document.getElementById('measurement_min').innerHTML;
+            let units = document.getElementById('measurement_units').innerHTML;
+            $('[id=readingOff]').val(value + " " + units);
+            $('[id=readingOff]').change();
+        };
+
+        function onMaxOffButtonClick() {
+            let value = document.getElementById('measurement_max').innerHTML;
+            let units = document.getElementById('measurement_units').innerHTML;
+            $('[id=readingOff]').val(value + " " + units);
+            $('[id=readingOff]').change();
+        };
+
+        function onAveOffButtonClick() {
+            let value = document.getElementById('measurement_ave').innerHTML;
+            let units = document.getElementById('measurement_units').innerHTML;
+            $('[id=readingOff]').val(value + " " + units);
+            $('[id=readingOff]').change();
+        };
+
+        function onSubmitSurveyButtonClick() {
+          demoSurvey.submitReadings();
+        };
+
+        function onClearSurveyButtonClick() {
+          demoSurvey.removeAll();
+          checkList.removeAllRows();
+        };
+
+        // datastore.js
+        (function(window) {
+            'use strict';
+            var App = window.App || {};
+
+            function DataStore() {
+                this.data = {};
+            };
+
+            DataStore.prototype.add = function(key, val) {
+                this.data[key] = val;
+            };
+
+            DataStore.prototype.get = function(key) {
+                return this.data[key];
+            };
+
+            DataStore.prototype.getAll = function() {
+                return this.data;
+            };
+
+            DataStore.prototype.remove = function(key) {
+                delete this.data[key];
+            };
+
+            App.DataStore = DataStore;
+            window.App = App;
+
+        })(window);
+
+        // survey.js
+        (function(window) {
+            'use strict';
+            var App = window.App || {};
+
+            function Survey(surveyId, db) {
+                this.surveyId = surveyId;
+                this.db = db;
+            };
+
+            Survey.prototype.createReading = function(reading) {
+                console.log('Adding reading for ' + reading.readingId);
+                //reading.include = false;
+                this.db.add(reading.readingId, reading);
+            };
+
+            Survey.prototype.includeReading = function(readingId) {
+                var reading = this.db.get(readingId);
+                reading.include = true;
+            };
+
+            Survey.prototype.excludeReading = function(readingId) {
+                var reading = this.db.get(readingId);
+                reading.include = false;
+            };
+
+            Survey.prototype.toggleReading = function(readingId) {
+                var reading = this.db.get(readingId);
+                reading.include = !reading.include;
+            };
+
+            Survey.prototype.removeReading = function(readingId) {
+                this.db.remove(readingId);
+            };
+
+            Survey.prototype.removeAll = function() {
+                this.db.removeAll;
+            };
+
+            Survey.prototype.printReadings = function () {
+                var readingIdArray = Object.keys(this.db.getAll());
+                console.log('Survey ' + this.surveyId + ' has pending readings:');
+                readingIdArray.forEach(function (id) {
+                  console.log(this.db.get(id));
+                }.bind(this));
+            };
+
+            Survey.prototype.submitReadings = function () {
+              var dataString = "Submitted Readings: \n\n";
+              var readingIdArray = Object.keys(this.db.getAll());
+              readingIdArray.forEach(function (id) {
+                let reading = this.db.get(id);
+                if (reading.include) {
+                  dataString += JSON.stringify(this.db.get(id)) + "\n";
+                }
+              }.bind(this));
+              alert(dataString);
+            };
+
+            App.Survey = Survey;
+            window.App = App;
+
+        })(window);
+
+        // checklist.js
+        (function(window) {
+            'use strict';
+            var App = window.App || {};
+            var $ = window.jQuery;
+
+            function CheckList(selector) {
+                if (!selector) {
+                    throw new Error('No selector provided!');
+                }
+
+                this.$element = $(selector);
+                if (this.$element.length === 0) {
+                    throw new Error('Could not find element with selector: ' + selector);
+                }
+            };
+
+            CheckList.prototype.addClickHandler = function(fn) {
+              this.$element.on('click', 'input', function (event) {
+                var readingId = event.target.value;
+                //this.removeRow(readingId);
+                fn(readingId);
+              }.bind(this));
+            };
+
+            CheckList.prototype.addRow = function(reading) {
+              // Remove any existing rows that match the reading id
+              this.removeRow(reading.readingId);
+
+              // Create a new instance of a row, using the reading info
+              var rowElement = new Row(reading);
+
+              // Add the new row instance's $element property to the CheckList
+              this.$element.append(rowElement.$element);
+            };
+
+            CheckList.prototype.removeRow = function(readingId) {
+              this.$element
+              .find('[value="' + readingId + '"]')
+              .closest('[data-reading="checkbox"]')
+              .remove();
+            };
+
+            CheckList.prototype.removeAllRows = function(readingId) {
+              this.$element.empty();
+            };
+
+            function Row(reading) {
+              var $div = $('<div></div>', {
+                'data-reading' : 'checkbox',
+                'class': 'checkbox'
+              });
+              var $label = $('<label></label>');
+              var $checkbox = $('<input></input>', {
+                type: 'checkbox',
+                value: reading.readingId
+              });
+              if (reading.include) {
+                $checkbox.attr('checked', true);
+              }
+              var description = 'Reading ID: ' + reading.readingId + ', ';
+              description += 'Type: ' + reading.readingType + ', ';
+              description += 'ON: ' + reading.readingOn + ', ';
+              description += 'OFF: ' + reading.readingOff + '  ';
+              description += '[' + reading.readingRemarks + ']';
+
+              $label.append($checkbox);
+              $label.append(description);
+              $div.append($label);
+
+              this.$element = $div;
+            };
+
+            App.CheckList = CheckList;
+            window.App = App;
+        })(window);
+
+
+        // formhandler.js
+        (function(window) {
+            'use strict';
+            var App = window.App || {};
+            var $ = window.jQuery;
+
+            function FormHandler(selector) {
+                if (!selector) {
+                    throw new Error('No selector provided!');
+                }
+
+                this.$formElement = $(selector);
+                if (this.$formElement.length === 0) {
+                    throw new Error('Could not find element with selector: ' + selector);
+                }
+            };
+
+            FormHandler.prototype.addSubmitHandler = function(fn) {
+                console.log('Setting submit handler for form');
+                this.$formElement.on('submit', function(event) {
+                    event.preventDefault();
+
+                    var data = {};
+                    var dataString = "";
+                    $(this).serializeArray().forEach(function(item) {
+                        data[item.name] = item.value;
+                        dataString += item.name + ' is ' + item.value + "\n";
+                    });
+                    console.log(dataString);
+                    console.log(data);
+                    fn(data);
+                    this.reset();
+                    this.elements[0].focus();
+                });
+            };
+
+            App.FormHandler = FormHandler;
+            window.App = App;
+
+        })(window);
+
+        // main.js
+        (function(window) {
+            'use strict';
+            var FORM_SELECTOR = '[data-reading="form"]';
+            var CHECKLIST_SELECTOR = '[data-reading="checklist"]';
+            var App = window.App;
+            var DataStore = App.DataStore;
+            var Survey = App.Survey;
+            var FormHandler = App.FormHandler;
+            var CheckList = App.CheckList;
+            var demoSurvey = new Survey('demo-1234', new DataStore());
+            var checkList = new CheckList(CHECKLIST_SELECTOR);
+            checkList.addClickHandler(demoSurvey.toggleReading.bind(demoSurvey));
+            window.demoSurvey = demoSurvey;
+            window.checkList = checkList;
+            var formHandler = new FormHandler(FORM_SELECTOR);
+            formHandler.addSubmitHandler(function (data) {
+              data.include = true;
+              demoSurvey.createReading.call(demoSurvey, data);
+              checkList.addRow.call(checkList, data);
+            });
+        })(window);
+
+    </script>
+
+</body>
+
+</html>
