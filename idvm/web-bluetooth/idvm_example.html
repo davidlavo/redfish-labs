@@ -66,7 +66,7 @@
                 <div class="panel-body">
                 <button id="connectMeter">Connect</button>
                 <button id="startNotifications" disabled>Start Notifications</button>
-                <button id="stopNotifications" disabled>Stop Notifications</button>
+                <!-- <button id="stopNotifications" disabled>Stop Notifications</button> -->
                 <button id="reset">Disconnect</button>
                 </div>
             </div>
@@ -167,6 +167,7 @@
             })
             .catch(error => {
                 console.log('Argh! ' + error);
+                alert(error);
             });
         }
 
@@ -205,7 +206,7 @@
                 batteryLevelCharacteristic.addEventListener('characteristicvaluechanged',
                 handleBatteryLevelChanged);
                 document.querySelector('#startNotifications').disabled = false;
-                document.querySelector('#stopNotifications').disabled = true;
+                //document.querySelector('#stopNotifications').disabled = true;
             })
             .then(_ => {
                 console.log('Getting Measurement Service...');
@@ -220,7 +221,7 @@
                 measurementCharacteristic.addEventListener('characteristicvaluechanged',
                     handleMeasurementChanged);
                 document.querySelector('#startNotifications').disabled = false;
-                document.querySelector('#stopNotifications').disabled = true;
+                //document.querySelector('#stopNotifications').disabled = true;
             });
         }
 
@@ -253,10 +254,11 @@
             .then(_ => {
                 console.log('> Notifications started');
                 document.querySelector('#startNotifications').disabled = true;
-                document.querySelector('#stopNotifications').disabled = false;
+                //document.querySelector('#stopNotifications').disabled = false;
             })
             .catch(error => {
                 console.log('Argh! ' + error);
+                alert(error);
             });
         }
 
@@ -267,7 +269,7 @@
             .then(_ => {
                 console.log('> Notifications stopped');
                 document.querySelector('#startNotifications').disabled = false;
-                document.querySelector('#stopNotifications').disabled = true;
+                //document.querySelector('#stopNotifications').disabled = true;
             })
             .catch(error => {
                 console.log('Argh! ' + error);
@@ -322,13 +324,13 @@
                 onStartNotificationsButtonClick();
             }
         });
-
+        /*
         document.querySelector('#stopNotifications').addEventListener('click', function(event) {
             if (isWebBluetoothEnabled()) {
                 onStopNotificationsButtonClick();
             }
         });
-
+        */
         document.querySelector('#reset').addEventListener('click', function(event) {
             if (isWebBluetoothEnabled()) {
                 //ChromeSamples.clearLog();
@@ -460,7 +462,6 @@
         })(window);
 
     </script>
-
+        
     </body>
-
 </html>
