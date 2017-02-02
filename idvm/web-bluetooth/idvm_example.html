@@ -150,7 +150,7 @@
         var batteryLevelCharacteristic;
         var measurementCharacteristic;
 
-        function connectMeterButtonClick(startNotifications) {
+        function connectMeterButtonClick() {
             requestDevice()
             .then(connectDeviceAndCacheCharacteristics)
             .then(_ => {
@@ -160,9 +160,7 @@
                 measurementCharacteristic.readValue();
             })
             .then(_ => {
-                if (startNotifications) {
-                    onStartNotificationsButtonClick();
-                }
+                onStartNotificationsButtonClick();
             })
             .catch(error => {
                 console.log('Argh! ' + error);
@@ -312,7 +310,7 @@
 
         document.querySelector('#connectMeter').addEventListener('click', function() {
             if (isWebBluetoothEnabled()) {
-                connectMeterButtonClick(true);
+                connectMeterButtonClick();
             }
         });
 
