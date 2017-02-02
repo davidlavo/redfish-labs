@@ -157,9 +157,12 @@
                 console.log('Reading Battery Level ...');
                 batteryLevelCharacteristic.readValue();
                 console.log('Reading Measurement Value ...');
-                measurementCharacteristic.readValue();
+                return measurementCharacteristic.readValue();
             })
-            .then(onStartNotificationsButtonClick)
+            .then(_ => {
+                console.log('Auto-starting notifications ...');
+                onStartNotificationsButtonClick();
+            })
             .catch(error => {
                 console.log('Argh! ' + error);
             });
