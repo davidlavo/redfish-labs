@@ -202,8 +202,8 @@
                 batteryLevelCharacteristic = characteristic;
                 batteryLevelCharacteristic.addEventListener('characteristicvaluechanged',
                 handleBatteryLevelChanged);
-                document.querySelector('#startNotifications').disabled = false;
-                document.querySelector('#stopNotifications').disabled = true;
+                //document.querySelector('#startNotifications').disabled = false;
+                //document.querySelector('#stopNotifications').disabled = true;
             })
             .then(_ => {
                 console.log('Getting Measurement Service...');
