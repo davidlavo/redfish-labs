@@ -1,1 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
 
+    <head>
+        <meta charset="utf-8">
+        <title>iDVM Example Web-Bluetooth Page</title>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js" charset="utf-8"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
+
+        <style>
+
+            #measurement_container {
+                margin-top:20px;
+                margin-bottom:20px;
+                margin-left:15%;
+                margin-right:15%;
+                width:70%;
+                text-align:center;
+            }
+
+            #measurement_value, #measurement_mode, #measurement_units {
+                font-size:3em;
+                color:#000000;
+                background: transparent;
+                margin-top:0px;
+                margin-bottom:0px;
+                padding-top:0px;
+                padding-bottom:0px;
+                display:inline;
+            }
+
+            #measurement_value {
+                font-weight:bolder;
+            }
+
+            #measurement_mode, #measurement_units {
+                font-size:1.7em;
+                font-weight:lighter;
+            }
+
+        </style>
+
+    </head>
+
+    <body class="container">
+        <header>
+            <h1>iDVM Custom Web-Bluetooth Page</h1>
+        </header>
+        <p class="availability">
+          Available in <a target="_blank" href="https://www.chromestatus.com/feature/5264933985976320">Chrome 48+</a></p>
+        <p>The <a href="https://github.com/WebBluetoothCG/web-bluetooth">Web Bluetooth API</a> 
+          lets websites discover and communicate with devices over the
+          Bluetooth 4 wireless standard using the Generic Attribute Profile (GATT). It is
+          currently partially implemented in Chrome OS, Android M, Linux and Mac
+          behind the experimental flag <code>chrome://flags/#enable-web-bluetooth</code>.<br/>
+        </p>
+
+        <section>
+            <h2>Measurement Display</h2>
+            <p>
+            The Web Bluetooth code will deliver all meter measurements to your page through a Javascript function
+            [name and details TBD].  You can continuously display this data, or you can observe the
+            measurements for calculations, graphing, or anything else.
+            </p>
+            <p>
+            Here is a panel that displays all measurements as they are taken, along with the
+            meter-mode and units strings:
+            </p>
+        <div class="panel panel-default" id="measurement_container">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr><td><p id="measurement_mode">Voltage-DC</p></td></tr>
+                <tr><td><p id="measurement_value">0</p></td></tr>
+                <tr><td><p id="measurement_units">V</p></td></tr>
+            </table>
+        </div>
+        </section>
+
+        <section>
+            <h2>Measurement Capture and Calculation</h2>
+            <p>
+            You can capture specific measurements when the user taps on a button or link, and use the
+            captured data to fill out a form or perform calculations.
+            </p>
+            <p>
+            Here is a form that allows you to take a voltage and a current measurement, and from those
+            measurements calculate a wattage value.  In the Javascript for this page, the Capture buttons
+            grab measurement values from the panel above, and the Calculate button simply verifies the
+            values and performs a simple multiplication.  The Submit button simply shows an Alert with
+            the field data, but in a real application it would send the data to a server for storage.
+            </p>
+            <div class="panel panel-default">
+            <div class="panel-body">
+                <form class="form-horizontal" data-measurements="form">
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">Voltage</span>
+                            <input class="form-control" type="text" name="voltage" id="captured_voltage" autofocus>
+                                <div class="input-group-btn">
+                                    <button id="captureVoltage" type="button" class="btn btn-primary btn-default">Capture</button>
+                                </div>
+                                </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">Amperage</span>
+                            <input class="form-control" type="text" name="amperage" id="captured_amperage">
+                                <div class="input-group-btn">
+                                    <button id="captureAmperage" type="button" class="btn btn-primary btn-default">Capture</button>
+                                </div>
+                                </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">Wattage</span>
+                            <input class="form-control" type="text" name="wattage" id="calculated_wattage">
+                                <div class="input-group-btn">
+                                    <button id="calculateWattage" type="button" class="btn btn-primary btn-default">Calculate</button>
+                                </div>
+                                </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-default btn-block">Submit</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script>
+
+        document.querySelector('#captureVoltage').addEventListener('click', function(event) {
+            onCaptureVoltageButtonClick();
+        });
+
+        document.querySelector('#captureAmperage').addEventListener('click', function(event) {
+            onCaptureAmperageButtonClick();
+        });
+
+        document.querySelector('#calculateWattage').addEventListener('click', function(event) {
+            onCalculateWattageButtonClick();
+        });
+
+        function idvmNotification(jsonInfo) {
+          var data = JSON.parse(jsonInfo);
+          let displayValue = data["DisplayValue"];
+          let modeString = data["ModeString"];
+          let value = displayValue.split(" ")[0];
+          let units = displayValue.split(" ")[1];
+          document.getElementById('measurement_mode').innerHTML = modeString;
+          document.getElementById('measurement_value').innerHTML = value;
+          document.getElementById('measurement_units').innerHTML = units;
+        };
+
+        function onCaptureVoltageButtonClick() {
+            let value = document.getElementById('measurement_value').innerHTML;
+            let units = document.getElementById('measurement_units').innerHTML;
+            $('[name=voltage]').val(value + " " + units);
+            $('[name=voltage]').change();
+        }
+
+        function onCaptureAmperageButtonClick() {
+            let value = document.getElementById('measurement_value').innerHTML;
+            let units = document.getElementById('measurement_units').innerHTML;
+            //document.getElementById('captured_amperage').innerHTML = value + " " + units;
+            $('[id=captured_amperage]').val(value + " " + units);
+            $('[id=captured_amperage]').change();
+        }
+
+        function onCalculateWattageButtonClick() {
+            let voltsValue = parseFloat($('[id=captured_voltage]').val().split(" ")[0]);
+            let voltsUnits = $('[id=captured_voltage]').val().split(" ")[1];
+            let ampsValue = parseFloat($('[id=captured_amperage]').val().split(" ")[0]);
+            let ampsUnits = $('[id=captured_amperage]').val().split(" ")[1];
+            let vUnits = voltsUnits.toLowerCase();
+            var inputError = "";
+            var vMultiplier = 1.0;
+            if (vUnits === 'mv') {
+                vMultiplier = 0.001;
+            } else if (vUnits === "µv") {
+                vMultiplier = 0.000001;
+            } else if (vUnits !== "v") {
+                inputError = "Check Voltage!";
+            }
+            let aUnits = ampsUnits.toLowerCase();
+            var aMultiplier = 1.0;
+            if (aUnits === 'ma') {
+                aMultiplier = 0.001;
+            } else if (aUnits === "µa") {
+                aMultiplier = 0.000001;
+            } else if (aUnits !== "a") {
+                inputError = "Check Amperage!";
+            }
+            if (inputError === "") {
+                let wattage = (voltsValue * vMultiplier * ampsValue * aMultiplier).toFixed(2);
+                //document.getElementById('calculated_wattage').innerHTML = wattage + " W";
+                $('[id=calculated_wattage]').val(wattage + " W");
+            } else {
+                //document.getElementById('calculated_wattage').innerHTML = inputError;
+                $('[id=calculated_wattage]').val(inputError);
+            }
+            $('[id=calculated_wattage]').change();
+        }
+
+        (function (window) {
+            'use strict';
+            var App = window.App || {};
+            var $ = window.jQuery;
+
+            function FormHandler(selector) {
+                if (!selector) {
+                    throw new Error('No selector provided!');
+                }
+
+                this.$formElement = $(selector);
+                if (this.$formElement.length === 0) {
+                    throw new Error('Could not find element with selector: ' + selector);
+                }
+            }
+
+            FormHandler.prototype.addSubmitHandler = function (fn) {
+                console.log('Setting submit handler for form');
+                this.$formElement.on('submit', function (event) {
+                      event.preventDefault();
+
+                      var data = {};
+                      var dataString = "";
+                      $(this).serializeArray().forEach(function (item) {
+                                                       data[item.name] = item.value;
+                                                       dataString += item.name + ' is ' + item.value + "\n";
+                                                       console.log(dataString);
+                                                       });
+                      console.log(data);
+                      fn(dataString);
+                      this.reset();
+                      this.elements[0].focus();
+                });
+            };
+
+            App.FormHandler = FormHandler;
+            window.App = App;
+
+        })(window);
+
+        (function (window) {
+            'use strict';
+            var FORM_SELECTOR = '[data-measurements="form"]';
+            var App = window.App;
+            var FormHandler = App.FormHandler;
+            var formHandler = new FormHandler(FORM_SELECTOR);
+            formHandler.addSubmitHandler(alert);
+            console.log(formHandler);
+        })(window);
+
+    </script>
+
+    </body>
+
+</html>
