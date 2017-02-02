@@ -58,6 +58,21 @@
         </p>
 
         <section>
+            <h2>Meter Connection</h2>
+            <p>
+            Turn on your meter and make it's not connected to another app, device, or webpage.
+            </p>
+            <div id="connect_buttons_container" class="panel panel-default">
+                <div class="panel-body">
+                <button id="connectMeter">Connect to Meter</button>
+                <button id="startNotifications" disabled>Start Notifications</button>
+                <button id="stopNotifications" disabled>Stop Notifications</button>
+                <button id="reset">Reset Bluetooth Device</button>
+                </div>
+            </div>
+        </section>
+
+        <section>
             <h2>Measurement Display</h2>
             <p>
             The Web Bluetooth code will deliver all meter measurements to your page through a Javascript function
@@ -68,13 +83,13 @@
             Here is a panel that displays all measurements as they are taken, along with the
             meter-mode and units strings:
             </p>
-        <div class="panel panel-default" id="measurement_container">
-            <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                <tr><td><p id="measurement_mode">Voltage-DC</p></td></tr>
-                <tr><td><p id="measurement_value">0</p></td></tr>
-                <tr><td><p id="measurement_units">V</p></td></tr>
-            </table>
-        </div>
+            <div class="panel panel-default" id="measurement_container">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr><td><p id="measurement_mode">Voltage-DC</p></td></tr>
+                    <tr><td><p id="measurement_value">0</p></td></tr>
+                    <tr><td><p id="measurement_units">V</p></td></tr>
+                </table>
+            </div>
         </section>
 
         <section>
@@ -90,15 +105,6 @@
             values and performs a simple multiplication.  The Submit button simply shows an Alert with
             the field data, but in a real application it would send the data to a server for storage.
             </p>
-            
-            <div id="connect_buttons_container" class="panel panel-default">
-                <div class="panel-body">
-                <button id="connectMeter">Connect to Meter</button>
-                <button id="startNotifications" disabled>Start Notifications</button>
-                <button id="stopNotifications" disabled>Stop Notifications</button>
-                <button id="reset">Reset Bluetooth Device</button>
-                </div>
-            </div>
 
             <div class="panel panel-default">
             <div class="panel-body">
