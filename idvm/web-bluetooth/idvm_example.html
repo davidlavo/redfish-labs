@@ -277,6 +277,55 @@
             }
             bluetoothDevice = null;
         }
+        
+        /* Utils */
+        function anyDevice() {
+            // This is the closest we can get for now to get all devices.
+            // https://github.com/WebBluetoothCG/web-bluetooth/issues/234
+            return Array.from('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')
+                .map(c => ({namePrefix: c}))
+                .concat({name: ''});
+        }
+
+        function idvmDevices() {
+            // To scan for just iDVM meters, look for the main "Measurement Service"
+            return [{services: ['1000eee0-0a12-8b1d-4acc-e552a12edf15']}];
+        }
+
+        function isWebBluetoothEnabled() {
+            if (navigator.bluetooth) {
+                return true;
+            } else {
+                ChromeSamples.setStatus('Web Bluetooth API is not available.\n' +
+                                      'Please make sure the Web Bluetooth flag is enabled.');
+                return false;
+            }
+        }
+
+        document.querySelector('#connectMeter').addEventListener('click', function() {
+            if (isWebBluetoothEnabled()) {
+                connectMeterButtonClick();
+            }
+        });
+
+        document.querySelector('#startNotifications').addEventListener('click', function(event) {
+            if (isWebBluetoothEnabled()) {
+                onStartNotificationsButtonClick();
+            }
+        });
+
+        document.querySelector('#stopNotifications').addEventListener('click', function(event) {
+            if (isWebBluetoothEnabled()) {
+                onStopNotificationsButtonClick();
+            }
+        });
+
+        document.querySelector('#reset').addEventListener('click', function(event) {
+            if (isWebBluetoothEnabled()) {
+                ChromeSamples.clearLog();
+                onResetButtonClick();
+            }
+        });
 
         document.querySelector('#captureVoltage').addEventListener('click', function(event) {
             onCaptureVoltageButtonClick();
