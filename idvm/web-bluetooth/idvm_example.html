@@ -159,9 +159,7 @@
                 console.log('Reading Measurement Value ...');
                 measurementCharacteristic.readValue();
             })
-            .then(_ => {
-                onStartNotificationsButtonClick();
-            })
+            .then(onStartNotificationsButtonClick)
             .catch(error => {
                 console.log('Argh! ' + error);
             });
