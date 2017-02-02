@@ -65,6 +65,8 @@
             <div id="connect_buttons_container" class="panel panel-default">
                 <div class="panel-body">
                 <button id="connectMeter">Connect</button>
+                <button id="startNotifications" disabled>Start Notifications</button>
+                <button id="stopNotifications" disabled>Stop Notifications</button>
                 <button id="reset">Disconnect</button>
                 </div>
             </div>
@@ -160,8 +162,8 @@
                 return measurementCharacteristic.readValue();
             })
             .then(_ => {
-                console.log('Auto-starting notifications ...');
-                onStartNotificationsButtonClick();
+                //console.log('Auto-starting notifications ...');
+                //onStartNotificationsButtonClick();
             })
             .catch(error => {
                 console.log('Argh! ' + error);
@@ -202,8 +204,8 @@
                 batteryLevelCharacteristic = characteristic;
                 batteryLevelCharacteristic.addEventListener('characteristicvaluechanged',
                 handleBatteryLevelChanged);
-                //document.querySelector('#startNotifications').disabled = false;
-                //document.querySelector('#stopNotifications').disabled = true;
+                document.querySelector('#startNotifications').disabled = false;
+                document.querySelector('#stopNotifications').disabled = true;
             })
             .then(_ => {
                 console.log('Getting Measurement Service...');
@@ -217,8 +219,8 @@
                 measurementCharacteristic = characteristic;
                 measurementCharacteristic.addEventListener('characteristicvaluechanged',
                     handleMeasurementChanged);
-                //document.querySelector('#startNotifications').disabled = false;
-                //document.querySelector('#stopNotifications').disabled = true;
+                document.querySelector('#startNotifications').disabled = false;
+                document.querySelector('#stopNotifications').disabled = true;
             });
         }
 
