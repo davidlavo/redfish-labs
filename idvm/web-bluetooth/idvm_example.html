@@ -296,8 +296,8 @@
             if (navigator.bluetooth) {
                 return true;
             } else {
-                ChromeSamples.setStatus('Web Bluetooth API is not available.\n' +
-                                      'Please make sure the Web Bluetooth flag is enabled.');
+                alert('Web Bluetooth API is not available.\n' +
+                      'Please make sure the Web Bluetooth flag is enabled.');
                 return false;
             }
         }
