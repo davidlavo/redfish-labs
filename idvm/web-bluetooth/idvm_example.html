@@ -64,10 +64,8 @@
             </p>
             <div id="connect_buttons_container" class="panel panel-default">
                 <div class="panel-body">
-                <button id="connectMeter">Connect to Meter</button>
-                <button id="startNotifications" disabled>Start Notifications</button>
-                <button id="stopNotifications" disabled>Stop Notifications</button>
-                <button id="reset">Reset Bluetooth Device</button>
+                <button id="connectMeter">Connect</button>
+                <button id="reset">Disconnect</button>
                 </div>
             </div>
         </section>
@@ -152,14 +150,19 @@
         var batteryLevelCharacteristic;
         var measurementCharacteristic;
 
-        function connectMeterButtonClick() {
+        function connectMeterButtonClick(startNotifications) {
             requestDevice()
             .then(connectDeviceAndCacheCharacteristics)
             .then(_ => {
                 console.log('Reading Battery Level ...');
                 batteryLevelCharacteristic.readValue();
                 console.log('Reading Measurement Value ...');
-                return measurementCharacteristic.readValue();
+                measurementCharacteristic.readValue();
+            })
+            .then(_ => {
+                if (startNotifications) {
+                    onStartNotificationsButtonClick();
+                }
             })
             .catch(error => {
                 console.log('Argh! ' + error);
@@ -309,7 +312,7 @@
 
         document.querySelector('#connectMeter').addEventListener('click', function() {
             if (isWebBluetoothEnabled()) {
-                connectMeterButtonClick();
+                connectMeterButtonClick(true);
             }
         });
 
