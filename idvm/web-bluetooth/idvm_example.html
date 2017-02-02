@@ -91,6 +91,16 @@
             values and performs a simple multiplication.  The Submit button simply shows an Alert with
             the field data, but in a real application it would send the data to a server for storage.
             </p>
+            
+            <div id="connect_buttons_container" class="panel panel-default">
+                <div class="panel-body">
+                <button id="connectMeter">Connect to Meter</button>
+                <button id="startNotifications" disabled>Start Notifications</button>
+                <button id="stopNotifications" disabled>Stop Notifications</button>
+                <button id="reset">Reset Bluetooth Device</button>
+                </div>
+            </div>
+
             <div class="panel panel-default">
             <div class="panel-body">
                 <form class="form-horizontal" data-measurements="form">
@@ -132,6 +142,141 @@
     </section>
 
     <script>
+        var bluetoothDevice;
+        var gattServer;
+        var batteryLevelCharacteristic;
+        var measurementCharacteristic;
+
+        function connectMeterButtonClick() {
+            requestDevice()
+            .then(connectDeviceAndCacheCharacteristics)
+            .then(_ => {
+                log('Reading Battery Level ...');
+                batteryLevelCharacteristic.readValue();
+                log('Reading Measurement Value ...');
+                return measurementCharacteristic.readValue();
+            })
+            .catch(error => {
+                log('Argh! ' + error);
+            });
+        }
+
+        function requestDevice() {
+            let result = Promise.resolve();
+            if (!bluetoothDevice) {
+                log('Requesting Bluetooth Device...');
+                result = navigator.bluetooth.requestDevice(
+                    {filters: idvmDevices(), optionalServices: ['battery_service']})
+                .then(device => {
+                    bluetoothDevice = device;
+                    bluetoothDevice.addEventListener('gattserverdisconnected', onDisconnected);
+                });
+            }
+        return result;
+        }
+
+        function connectDeviceAndCacheCharacteristics() {
+            if (bluetoothDevice.gatt.connected && batteryLevelCharacteristic) {
+                return Promise.resolve();
+            }
+
+            log('Connecting to GATT Server...');
+            return bluetoothDevice.gatt.connect()
+            .then(server => {
+                gattServer = server;
+                log('Getting Battery Service...');
+                return gattServer.getPrimaryService('battery_service');
+            })
+            .then(batteryService => {
+                log('Getting Battery Level Characteristic...');
+                return batteryService.getCharacteristic('battery_level');
+            })
+            .then(characteristic => {
+                batteryLevelCharacteristic = characteristic;
+                batteryLevelCharacteristic.addEventListener('characteristicvaluechanged',
+                handleBatteryLevelChanged);
+                document.querySelector('#startNotifications').disabled = false;
+                document.querySelector('#stopNotifications').disabled = true;
+            })
+            .then(_ => {
+                log('Getting Measurement Service...');
+                return gattServer.getPrimaryService('1000eee0-0a12-8b1d-4acc-e552a12edf15');
+            })
+            .then(measurementService => {
+                log('Getting Measurement Characteristic...');
+                return measurementService.getCharacteristic('1000eee5-0a12-8b1d-4acc-e552a12edf15');
+            })
+            .then(characteristic => {
+                measurementCharacteristic = characteristic;
+                measurementCharacteristic.addEventListener('characteristicvaluechanged',
+                    handleMeasurementChanged);
+                document.querySelector('#startNotifications').disabled = false;
+                document.querySelector('#stopNotifications').disabled = true;
+            });
+        }
+
+        /* This function will be called when `readValue` resolves and
+        * characteristic value changes since `characteristicvaluechanged` event
+        * listener has been added. */
+        function handleMeasurementChanged(event) {
+            let data = event.target.value;
+            let msmt = new IDVM.Measurement(data, false);
+            log('> Display value is ' + msmt.displayValue);
+            document.getElementById('measurement_mode').innerHTML = msmt.meterMode.name;
+            document.getElementById('measurement_value').innerHTML = msmt.displayValue.split(" ")[0];
+            document.getElementById('measurement_units').innerHTML = msmt.displayValue.split(" ")[1];
+        }
+
+        function handleBatteryLevelChanged(event) {
+            let batteryLevel = event.target.value.getUint8(0);
+            log('> Battery Level is ' + batteryLevel + '%');
+        }
+
+        function onDisconnected(event) {
+            let device = event.target;
+            log('Device ' + device.name + ' is disconnected.');
+        }
+
+        function onStartNotificationsButtonClick() {
+            log('Starting Battery Level Notifications...');
+            (batteryLevelCharacteristic.startNotifications() &&
+            measurementCharacteristic.startNotifications())
+            .then(_ => {
+                log('> Notifications started');
+                document.querySelector('#startNotifications').disabled = true;
+                document.querySelector('#stopNotifications').disabled = false;
+            })
+            .catch(error => {
+                log('Argh! ' + error);
+            });
+        }
+
+        function onStopNotificationsButtonClick() {
+            log('Stopping Battery Level Notifications...');
+            (batteryLevelCharacteristic.stopNotifications() &&
+                measurementCharacteristic.stopNotifications())
+            .then(_ => {
+                log('> Notifications stopped');
+                document.querySelector('#startNotifications').disabled = false;
+                document.querySelector('#stopNotifications').disabled = true;
+            })
+            .catch(error => {
+                log('Argh! ' + error);
+            });
+        }
+
+        function onResetButtonClick() {
+            if (!bluetoothDevice) {
+                return;
+            }
+            log('Disconnecting from Bluetooth Device...');
+            if (bluetoothDevice.gatt.connected) {
+                bluetoothDevice.gatt.disconnect();
+            } else {
+                log('> Bluetooth Device is already disconnected');
+            }
+            bluetoothDevice = null;
+        }
 
         document.querySelector('#captureVoltage').addEventListener('click', function(event) {
             onCaptureVoltageButtonClick();
