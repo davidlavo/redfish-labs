@@ -1,0 +1,429 @@
+<!DOCTYPE html>  
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>iDVM_510_Bluetooth_v1_1a</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+/*
+This document has been created with Marked.app <http://markedapp.com>, Copyright 2013 Brett Terpstra
+Content is property of the document author
+Please leave this notice in place, along with any additional credits below.
+---------------------------------------------------------------
+Title: GitHub
+Author: Brett Terpstra
+Description: Github README style. Includes theme for Pygmentized code blocks.
+*/
+html,body{color:black}*:not('#mkdbuttons'){margin:0;padding:0}#wrapper{font:13.34px helvetica,arial,freesans,clean,sans-serif;-webkit-font-smoothing:subpixel-antialiased;line-height:1.4;padding:3px;background:#fff;border-radius:3px;-moz-border-radius:3px;-webkit-border-radius:3px}p{margin:1em 0}a{color:#4183c4;text-decoration:none}#wrapper{background-color:#fff;padding:30px;margin:15px;font-size:14px;line-height:1.6}#wrapper>*:first-child{margin-top:0!important}#wrapper>*:last-child{margin-bottom:0!important}@media screen{#wrapper{box-shadow:0 0 0 1px #cacaca,0 0 0 4px #eee}}h1,h2,h3,h4,h5,h6{margin:20px 0 10px;padding:0;font-weight:bold;-webkit-font-smoothing:subpixel-antialiased;cursor:text}h1{font-size:28px;color:#000}h2{font-size:24px;border-bottom:1px solid #ccc;color:#000}h3{font-size:18px;color:#333}h4{font-size:16px;color:#333}h5{font-size:14px;color:#333}h6{color:#777;font-size:14px}p,blockquote,table,pre{margin:15px 0}ul{padding-left:30px}ol{padding-left:30px}ol li ul:first-of-type{margin-top:0}hr{background:transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC) repeat-x 0 0;border:0 none;color:#ccc;height:4px;padding:0}#wrapper>h2:first-child{margin-top:0;padding-top:0}#wrapper>h1:first-child{margin-top:0;padding-top:0}#wrapper>h1:first-child+h2{margin-top:0;padding-top:0}#wrapper>h3:first-child,#wrapper>h4:first-child,#wrapper>h5:first-child,#wrapper>h6:first-child{margin-top:0;padding-top:0}a:first-child h1,a:first-child h2,a:first-child h3,a:first-child h4,a:first-child h5,a:first-child h6{margin-top:0;padding-top:0}h1+p,h2+p,h3+p,h4+p,h5+p,h6+p,ul li>:first-child,ol li>:first-child{margin-top:0}dl{padding:0}dl dt{font-size:14px;font-weight:bold;font-style:italic;padding:0;margin:15px 0 5px}dl dt:first-child{padding:0}dl dt>:first-child{margin-top:0}dl dt>:last-child{margin-bottom:0}dl dd{margin:0 0 15px;padding:0 15px}dl dd>:first-child{margin-top:0}dl dd>:last-child{margin-bottom:0}blockquote{border-left:4px solid #DDD;padding:0 15px;color:#777}blockquote>:first-child{margin-top:0}blockquote>:last-child{margin-bottom:0}table{border-collapse:collapse;border-spacing:0;font-size:100%;font:inherit}table th{font-weight:bold;border:1px solid #ccc;padding:6px 13px}table td{border:1px solid #ccc;padding:6px 13px}table tr{border-top:1px solid #ccc;background-color:#fff}table tr:nth-child(2n){background-color:#f8f8f8}img{max-width:100%}code,tt{margin:0 2px;padding:0 5px;white-space:nowrap;border:1px solid #eaeaea;background-color:#f8f8f8;border-radius:3px;font-family:Consolas,'Liberation Mono',Courier,monospace;font-size:12px;color:#333}pre>code{margin:0;padding:0;white-space:pre;border:0;background:transparent}.highlight pre{background-color:#f8f8f8;border:1px solid #ccc;font-size:13px;line-height:19px;overflow:auto;padding:6px 10px;border-radius:3px}pre{background-color:#f8f8f8;border:1px solid #ccc;font-size:13px;line-height:19px;overflow:auto;padding:6px 10px;border-radius:3px}pre code,pre tt{background-color:transparent;border:0}.poetry pre{font-family:Georgia,Garamond,serif!important;font-style:italic;font-size:110%!important;line-height:1.6em;display:block;margin-left:1em}.poetry pre code{font-family:Georgia,Garamond,serif!important;word-break:break-all;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;white-space:pre-wrap}sup,sub,a.footnote{font-size:1.4ex;height:0;line-height:1;vertical-align:super;position:relative}sub{vertical-align:sub;top:-1px}@media print{body{background:#fff}img,pre,blockquote,table,figure{page-break-inside:avoid}#wrapper{background:#fff;border:0}code{background-color:#fff;color:#333!important;padding:0 .2em;border:1px solid #dedede}pre{background:#fff}pre code{background-color:white!important;overflow:visible}}@media screen{body.inverted{color:#eee!important;border-color:#555;box-shadow:none}.inverted #wrapper,.inverted hr .inverted p,.inverted td,.inverted li,.inverted h1,.inverted h2,.inverted h3,.inverted h4,.inverted h5,.inverted h6,.inverted th,.inverted .math,.inverted caption,.inverted dd,.inverted dt,.inverted blockquote{color:#eee!important;border-color:#555;box-shadow:none}.inverted td,.inverted th{background:#333}.inverted h2{border-color:#555}.inverted hr{border-color:#777;border-width:1px!important}::selection{background:rgba(157,193,200,0.5)}h1::selection{background-color:rgba(45,156,208,0.3)}h2::selection{background-color:rgba(90,182,224,0.3)}h3::selection,h4::selection,h5::selection,h6::selection,li::selection,ol::selection{background-color:rgba(133,201,232,0.3)}code::selection{background-color:rgba(0,0,0,0.7);color:#eee}code span::selection{background-color:rgba(0,0,0,0.7)!important;color:#eee!important}a::selection{background-color:rgba(255,230,102,0.2)}.inverted a::selection{background-color:rgba(255,230,102,0.6)}td::selection,th::selection,caption::selection{background-color:rgba(180,237,95,0.5)}.inverted{background:#0b2531;background:#252a2a}.inverted #wrapper{background:#252a2a}.inverted a{color:#acd1d5}}.highlight .c{color:#998;font-style:italic}.highlight .err{color:#a61717;background-color:#e3d2d2}.highlight .k,.highlight .o{font-weight:bold}.highlight .cm{color:#998;font-style:italic}.highlight .cp{color:#999;font-weight:bold}.highlight .c1{color:#998;font-style:italic}.highlight .cs{color:#999;font-weight:bold;font-style:italic}.highlight .gd{color:#000;background-color:#fdd}.highlight .gd .x{color:#000;background-color:#faa}.highlight .ge{font-style:italic}.highlight .gr{color:#a00}.highlight .gh{color:#999}.highlight .gi{color:#000;background-color:#dfd}.highlight .gi .x{color:#000;background-color:#afa}.highlight .go{color:#888}.highlight .gp{color:#555}.highlight .gs{font-weight:bold}.highlight .gu{color:#800080;font-weight:bold}.highlight .gt{color:#a00}.highlight .kc,.highlight .kd,.highlight .kn,.highlight .kp,.highlight .kr{font-weight:bold}.highlight .kt{color:#458;font-weight:bold}.highlight .m{color:#099}.highlight .s{color:#d14}.highlight .na{color:#008080}.highlight .nb{color:#0086b3}.highlight .nc{color:#458;font-weight:bold}.highlight .no{color:#008080}.highlight .ni{color:#800080}.highlight .ne,.highlight .nf{color:#900;font-weight:bold}.highlight .nn{color:#555}.highlight .nt{color:#000080}.highlight .nv{color:#008080}.highlight .ow{font-weight:bold}.highlight .w{color:#bbb}.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:#099}.highlight .sb,.highlight .sc,.highlight .sd,.highlight .s2,.highlight .se,.highlight .sh,.highlight .si,.highlight .sx{color:#d14}.highlight .sr{color:#009926}.highlight .s1{color:#d14}.highlight .ss{color:#990073}.highlight .bp{color:#999}.highlight .vc,.highlight .vg,.highlight .vi{color:#008080}.highlight .il{color:#099}.highlight .gc{color:#999;background-color:#eaf2f5}.type-csharp .highlight .k,.type-csharp .highlight .kt{color:#00F}.type-csharp .highlight .nf{color:#000;font-weight:normal}.type-csharp .highlight .nc{color:#2b91af}.type-csharp .highlight .nn{color:#000}.type-csharp .highlight .s,.type-csharp .highlight .sc{color:#a31515}
+</style>
+
+</head>
+<body class="normal">
+  <div id="wrapper">
+      <h1 id="idvm-510bluetooth-ledescription">iDVM&#8211;510 Bluetooth-LE Description</h1>
+
+<p><em>Document Version: 1.1.1</em><br/>
+<em>Date: September 18, 2016</em> </p>
+
+<p>The iDVM&#8211;510 multimeter communicates using Bluetooth-LE. This document contains the details
+about the BT-LE characteristics and values used for accessing the meter and transferring
+data between the meter and another BT-LE device.</p>
+
+<p><em>This document reflects changes made in version 1.1 (Build 22) of the iDVM firmware,
+released in September 2016. This version may require some changes in client software, since
+some elements of the main <a href="#MeasurementChar">&#8220;Measurement&#8221; characteristic (<code>1000EEF5-0A12-8B1D-4ACC-E552A12EDF15</code>)</a>
+have changed. See notes below about this and other changes.</em></p>
+
+<h2 id="changesfrompreviousversions">Changes from Previous Versions</h2>
+
+<ul>
+<li><p>The recently-introduced &#8220;Measurement v1.1&#8221; characteristic (<code>1000EEF1-0A12-8B1D-4ACC-E552A12EDF15</code>)
+has been removed in order to free up limited firmware space for other more important features.
+Client software should continue to use the original
+<a href="#MeasurementChar">&#8220;Measurement&#8221; characteristic (<code>1000EEF5-0A12-8B1D-4ACC-E552A12EDF15</code>)</a>
+to get readings from iDVM meters.</p></li>
+<li><p>The meanings of certain bits in the Flags byte of the
+<a href="#MeasurementChar">&#8220;Measurement&#8221; characteristic</a> have changed. Some client software may
+have to be changed to interpret measurements properly: see <a href="#MeasurementFlagsByte">notes</a> below.</p></li>
+<li><p>The advertising logic has changed to advertise indefinitely by default.</p></li>
+<li><p>The <a href="#RecordingStatusChar">&#8220;Recording Status&#8221; characteristic</a> now includes 4 additional
+bytes indicating the elapsed time of a datalogging (on-meter recording) session.</p></li>
+<li><p>Version 1.1 iDVM&#8211;510 multimeters have a new &#8220;Duty Cycle&#8221; mode, with a new meter-mode
+value in the <a href="#MeasurementChar">&#8220;Measurement&#8221;</a> and <a href="#MeterModeChar">&#8220;Meter Mode&#8221;</a>
+characteristics.</p></li>
+<li><p>Version 1.1 meters now report an additional byte in the <a href="#MeasurementChar">&#8220;Measurement&#8221; characteristic</a>
+for the measurement range, when appropriate.</p></li>
+<li><p>The <a href="#ConnectionTimeoutChar">&#8220;Connection Timeout&#8221; characteristic</a> is now a 2-byte value
+that can be used to set the total advertising time, at both fast and slow rates, in seconds.
+See <a href="#Connecting">&#8220;Connecting to the iDVM&#8211;510&#8221;</a> below for details about device advertising.</p></li>
+</ul>
+
+<h2 id="anameconnectingaconnectingtotheidvm-510"><a name="Connecting"></a>Connecting to the iDVM&#8211;510</h2>
+
+<p>Immediately after power on, the iDVM&#8211;510 will advertise at a fast rate (20ms interval)
+for 60s. If no connection is made in 60s, the meter will switch to a slow advertising rate
+(1285ms interval) and continue advertising indefinitely. Advertising is
+indicated by a small Bluetooth symbol near the upper-right corner of the meter LCD.
+Pressing the red Bluetooth button on the meter will re-start advertising, once again at
+the fast rate.</p>
+
+<p>The advertising time can be changed by writing a new value to the
+<a href="#ConnectionTimeoutChar">&#8220;Connection Timeout&#8221;</a> characteristic. This value is the total
+number of seconds that the meter will advertise, including both fast and slow intervals.
+A value of 0 (the default) means advertise indefinitely, and the minimum non-zero value
+is 30.</p>
+
+<p>Only one client connection can be made to the meter at one time. After a client disconnects,
+the meter will re-start the advertising process.</p>
+
+<p>The meter includes in its advertising packet a short device name of &#8220;iDVM&#8211;510&#8221; and the
+128-bit UUID for its main <a href="#MeasurementService">Measurement Service (<code>1000EEE0-0A12-8B1D-4ACC-E552A12EDF15</code>)</a>.</p>
+
+<h2 id="anamedeviceinfoserviceadeviceinformationservice"><a name="DeviceInfoService"></a>Device Information Service</h2>
+
+<p><strong>Service UUID: <code>180A</code></strong></p>
+
+<p>This is a standard BT-LE Device Information Service. It presents general information about
+the meter as a Bluetooth-LE device. These characteristics can be accessed using BT-standard
+16-bit UUIDs.</p>
+
+<ul>
+<li><strong>System ID (UUID <code>2A23</code>):</strong> A unique ID for the device, based on its GAP address; 8 bytes</li>
+<li><strong>Model Number (UUID <code>2A24</code>):</strong> An ASCII string; set to &#8220;iDVM&#8211;510&#8221;</li>
+<li><strong>Serial Number (UUID <code>2A25</code>):</strong> Not currently used</li>
+<li><strong>Firmware Revision (UUID <code>2A26</code>):</strong> ASCII string for iDVM firmware version; currently &#8220;1.1 (22)&#8221;</li>
+<li><strong>Hardware Revision (UUID <code>2A27</code>):</strong> ASCII string for iDVM hardware version; may be &#8220;1.0&#8221; or &#8220;1.1&#8221;</li>
+<li><strong>Software Revision (UUID <code>2A28</code>):</strong> Not used (set to &#8220;1.0&#8221;)</li>
+<li><strong>Manufacturer Name (UUID <code>2A29</code>):</strong> ASCII string, set to &#8220;Redfish Instruments, Inc.&#8221;</li>
+<li><strong>Regulatory Certification (UUID <code>2A2A</code>):</strong> Not used</li>
+<li><strong>PnP ID (UUID <code>2A50</code>):</strong> Not used, will be changed in future</li>
+</ul>
+
+<h2 id="anamemeasurementserviceaidvmmeasurementservice"><a name="MeasurementService"></a>iDVM Measurement Service</h2>
+
+<p><strong>Service UUID: <code>1000EEE0-0A12-8B1D-4ACC-E552A12EDF15</code></strong></p>
+
+<p>The Measurement Service presents characteristics for accessing the iDVM&#8211;510&#8217;s multimeter
+and datalogging features, and for reading and writing various settings.</p>
+
+<p>All Measurement Service characteristic UUIDs are 128-bit and are of the form:</p>
+
+<p><code>1000XXXX-0A12-8B1D-4ACC-E552A12EDF15</code></p>
+
+<p>where the XXXX values are replaced by a 4-byte sub-UUID specific to each characteristic.
+For example, the Read Timer Period characteristic has a sub-UUID of <code>EEE1</code>, and so its
+full 128-bit UUID is <code>1000EEE1-0A12-8B1D-4ACC-E552A12EDF15</code>. You need to use this full
+128-bit UUID to access the characteristic from a client device.</p>
+
+<h3 id="anamereadtimercharareadtimerperiod"><a name="ReadTimerChar"></a>Read Timer Period</h3>
+
+<p><strong>UUID: <code>1000EEE1-0A12-8B1D-4ACC-E552A12EDF15</code></strong><br/>
+<strong>Properties: R/W</strong><br/>
+<strong>Value: 1-byte unsigned int</strong> </p>
+
+<p>The Read Timer Period value determines how fast the iDVM&#8211;510 takes samples. The value
+written to this characteristic is an index into a table of allowed values:</p>
+
+<ul>
+<li>0: read timer off</li>
+<li>1: 333.3ms (3 samples / sec)</li>
+<li>2: 500ms (2 samples / sec)</li>
+<li>3: 1000ms (1 sample / sec)</li>
+<li>4: 2000ms (1 sample / 2 sec)</li>
+<li>5: 3000ms (1 sample / 3 sec)</li>
+<li>6: 5000ms (1 sample / 5 sec)</li>
+<li>7: 10000ms (1 sample / 10 sec)</li>
+<li>8: 60000ms (1 sample / min)</li>
+<li>9: 600000ms (1 sample / 10 min)</li>
+<li>10: 3600000ms (1 sample / hour)</li>
+</ul>
+
+<p>The default value is 1, or 3 samples/sec. Any value written to this characteristic is not
+saved on power-off.</p>
+
+<h3 id="anameutctimecharautctime"><a name="UTCTimeChar"></a>UTC Time</h3>
+
+<p><strong>UUID: <code>1000EEE2-0A12-8B1D-4ACC-E552A12EDF15</code></strong><br/>
+<strong>Properties: R/W</strong><br/>
+<strong>Value: 4-byte signed int</strong> </p>
+
+<p>This characteristic is used to transmit a UTC time to the meter so that it can timestamp
+any subsequent datalogging operations. The value is a 32-bit signed integer that represents
+the number of milliseconds since 00:00:00 UTC on January 1, 1970.</p>
+
+<p>This value is not retained after power-off, and the long-term accuracy of the internal
+timer of the iDVM&#8211;510 is not high, so this characteristic should be re-written occasionally
+by a client to maintain the validity of datalog timestamps.</p>
+
+<h3 id="anamemetermodecharametermode"><a name="MeterModeChar"></a>Meter Mode</h3>
+
+<p><strong>UUID: <code>1000EEE3-0A12-8B1D-4ACC-E552A12EDF15</code></strong><br/>
+<strong>Properties: R/N</strong><br/>
+<strong>Value: 1-byte unsigned int</strong> </p>
+
+<p>This characteristic holds a 1-byte value that indicates the current measurement mode of
+the meter. You can notify on this characteristic to be informed of mode changes. The
+current values are:</p>
+
+<ul>
+<li>0x01: Voltage-AC</li>
+<li>0x02: Voltage-DC</li>
+<li>0x03: Resistance</li>
+<li>0x04: Amperage-AC</li>
+<li>0x05: Amperage-DC</li>
+<li>0x06: Frequency</li>
+<li>0x07: Capacitance</li>
+<li>0x08: Temperature-F</li>
+<li>0x09: Temperature-C</li>
+<li>0x0A: NCV</li>
+<li>0x0B: Continuity</li>
+<li>0x0C: Diode</li>
+<li>0x0D: Duty Cycle</li>
+</ul>
+
+<h3 id="anamemeterrequestcharameterrequest"><a name="MeterRequestChar"></a>Meter Request</h3>
+
+<p><strong>UUID: <code>1000EEE4-0A12-8B1D-4ACC-E552A12EDF15</code></strong><br/>
+<strong>Properties: R/W/N</strong><br/>
+<strong>Value: 18 bytes hex</strong> </p>
+
+<p>Internal-use: used for debugging UART communication between DMM and CPU.</p>
+
+<h3 id="anamemeasurementcharameasurement"><a name="MeasurementChar"></a>Measurement</h3>
+
+<p><strong>UUID: <code>1000EEE5-0A12-8B1D-4ACC-E552A12EDF15</code></strong><br/>
+<strong>Properties: R/N</strong><br/>
+<strong>Value: 7&#8211;8 bytes hex</strong> </p>
+
+<p>This is the characteristic used to report measurements taken by the meter
+in all modes. Notifying on this characteristic will allow the client to receive and report
+all measurements as they are taken. </p>
+
+<p>For the iDVM&#8211;510 the measurement value is prefixed by a single 0x72 byte, followed by
+6 or 7 bytes of measurement data. The format is shown below:</p>
+
+<ul>
+<li>B0: 0x72 token (read-response prefix)</li>
+<li>B1: Meter mode</li>
+<li>B2: Flags</li>
+<li>B3: Exponent (sign-and-magnitude, e.g. 10000001b = &#8211;1)</li>
+<li>B4: SignAndLength, b0&#8211;6: Num. digits in measurement, b7: sign (0=pos, 1=neg)</li>
+<li>B5: BCD (packed) value</li>
+<li>B6: BCD (packed) value</li>
+<li>B7: Meter range (v1.1 or later meters only)</li>
+</ul>
+
+<p>Byte B1 is the raw meter-mode value, before any parsing is done. The values in this
+byte therefore differ from the <a href="#MeterModeChar">Meter Mode Characteristic</a>, and are
+shown below:</p>
+
+<ul>
+<li>0x00: NCV</li>
+<li>0x01: Voltage or Diode</li>
+<li>0x02: Amperage</li>
+<li>0x03: Frequency</li>
+<li>0x04: Duty Cycle</li>
+<li>0x05: Capacitance</li>
+<li>0x06: Resistance or Continuity</li>
+<li>0x07: Temperature-C</li>
+<li>0x08: Temperature-F</li>
+</ul>
+
+<p><a name="MeasurementFlagsByte"></a>The individual bits of the Flags byte (B2) indicate
+various states of the meter. The meanings of these bits have changed with recent hardware
+and firmware. Client programs need to check the &#8220;Hardware Revision&#8221; and &#8220;Firmware Revision&#8221;
+characteristics in the <a href="#DeviceInfoService">Device Information Service</a> before parsing this byte.</p>
+
+<p>For meters with &#8220;Hardware Revision&#8221; of &#8220;1.1&#8221; or higher and &#8220;Firmware Revision&#8221; of &#8220;1.1 (22)&#8221;
+or higher (latest values), the meaning of the Flags bit values are:</p>
+
+<ul>
+<li>b0: Autorange = 1, Manual range = 0</li>
+<li>b1: AC = 1, DC = 0</li>
+<li>b2: Holding = 1</li>
+<li>b3: Continuity mode = 1 (when B1 = 0x06)</li>
+<li>b4: REL on = 1, REL off = 0</li>
+<li>b5: Diode mode = 1 (when B1 = 0x01)</li>
+<li>b6: Low-battery = 1</li>
+<li>b7: Reserved</li>
+</ul>
+
+<p>For all other values of &#8220;Hardware Revision&#8221; and &#8220;Firmware Revision&#8221;, the legacy values are:</p>
+
+<ul>
+<li>b0: DC = 1</li>
+<li>b1: AC = 1</li>
+<li>b2: Holding = 1</li>
+<li>b3: Continuity mode = 1 (when B1 = 0x06)</li>
+<li>b4: NCV = 1 (when B0 = 0x00)</li>
+<li>b5: Diode = 1</li>
+<li>b6: Reserved</li>
+<li>b7: Reserved</li>
+</ul>
+
+<p>Note that client apps that want to parse AC/DC mode from all meters, regardless of hardware
+and firmware version, should simply look at b1 of the Flags byte and interpret a 1 as AC
+mode and a 0 as DC mode.</p>
+
+<p>For bytes B5-B6, there are a few special BCD values to indicate non-numeric measurements:</p>
+
+<ul>
+<li>EEEE: OL or -OL</li>
+<li>FFFF: Inf or -Inf</li>
+</ul>
+
+<h3 id="anamerecordingparameterschararecordingparameters"><a name="RecordingParametersChar"></a>Recording Parameters</h3>
+
+<p><strong>UUID: <code>1000EEE6-0A12-8B1D-4ACC-E552A12EDF15</code></strong><br/>
+<strong>Properties: R/W</strong><br/>
+<strong>Value: 5 bytes hex</strong> </p>
+
+<p>This characteristic is used to specify parameters for datalogging on the meter (triggered
+by pressing &#8220;REC&#8221; button on meter). The value is 5 bytes:</p>
+
+<ul>
+<li>B0&#8211;2: Sample limit (number of samples to take)</li>
+<li>B3&#8211;4: Sample period (how often to take a sample)</li>
+</ul>
+
+<p>These values are saved in the meter&#8217;s flash memory so that they will be retained when
+the meter is powered off.</p>
+
+<p>The allowable sample period values are shown below. These are approximate values; the
+actual recording rate will vary from session to session but should be close to the
+specified rates:</p>
+
+<ul>
+<li>0: 3 samples / sec</li>
+<li>1: 1.5 samples / sec (3 samples / 2 sec)</li>
+<li>3: 1 sample / 2 sec</li>
+<li>15: 1 sample / 10 sec</li>
+<li>68: 1 sample / 30 sec</li>
+<li>137: 1 sample / min</li>
+</ul>
+
+<h3 id="anamerecordingstatuschararecordingstatus"><a name="RecordingStatusChar"></a>Recording Status</h3>
+
+<p><strong>UUID: <code>1000EEE7-0A12-8B1D-4ACC-E552A12EDF15</code></strong><br/>
+<strong>Properties: R/N</strong><br/>
+<strong>Value: 8 bytes hex, as of FW Build 21 (previously 4 bytes)</strong> </p>
+
+<p>This characteristic reports the current datalogging status of the meter. The value consists
+of 1 byte for the recording/not-recording state, 3 bytes for the number of samples
+recorded so far, and (as of firmware v1.1 Build 21) 4 bytes for the elapsed recording time
+(in ms):</p>
+
+<ul>
+<li>B0: Recording status (0x00=not recording, 0x01=recording)</li>
+<li>B1&#8211;3: Sample count</li>
+<li>B4&#8211;7: Elapsed recording time (ms)</li>
+</ul>
+
+<h3 id="anamerecordingtokenchararecordingtoken"><a name="RecordingTokenChar"></a>Recording Token</h3>
+
+<p><strong>UUID: <code>1000EEE8-0A12-8B1D-4ACC-E552A12EDF15</code></strong><br/>
+<strong>Properties: R/N</strong><br/>
+<strong>Value: 20 bytes hex (max)</strong> </p>
+
+<p>The recording token is information written to the meter&#8217;s flash memory when datalogging
+starts. It contains information that a client can use to determine the time and parameters
+for the last datalogging session.</p>
+
+<ul>
+<li>B0: Length of the token (not including this byte)</li>
+<li>B1: Token version (currently 0x00)</li>
+<li>B2&#8211;4: Sample limit</li>
+<li>B5&#8211;6: Sample period (same as in Recording Parameters)</li>
+<li>B7: Nonce type (0x00=random number, 0x01=timestamp)</li>
+<li>B8-n: Nonce (2 bytes for random number, 4 bytes for timestamp)</li>
+</ul>
+
+<p>If the meter had been supplied with a UTC value (via <a href="#UTCTimeChar">characteristic
+<code>1000EEE2-0A12-8B1D-4ACC-E552A12EDF15</code></a>) before datalogging, the nonce
+value in the token will be a UTC timestamp at the start of recording. Otherwise it will
+be a 2-byte random number.</p>
+
+<h3 id="anamerecordingaccesspointchararecordingaccesspoint"><a name="RecordingAccessPointChar"></a>Recording Access Point</h3>
+
+<p><strong>UUID: <code>1000EEE9-0A12-8B1D-4ACC-E552A12EDF15</code></strong><br/>
+<strong>Properties: R/W/N</strong><br/>
+<strong>Value: 20 bytes hex (max)</strong> </p>
+
+<p>This characteristic is used to download the datalog samples. The protocol for doing
+so will be covered in a separate document.</p>
+
+<h3 id="anamemeterresponsecharameterresponse"><a name="MeterResponseChar"></a>Meter Response</h3>
+
+<p><strong>UUID: <code>1000EEEA-0A12-8B1D-4ACC-E552A12EDF15</code></strong><br/>
+<strong>Properties: R/W/N</strong><br/>
+<strong>Value: 18 bytes hex (max)</strong> </p>
+
+<p>Internal-use: used for debugging UART communication between DMM and CPU.</p>
+
+<h3 id="anametransmitpowercharatransmitpower"><a name="TransmitPowerChar"></a>Transmit Power</h3>
+
+<p><strong>UUID: <code>1000EEEB-0A12-8B1D-4ACC-E552A12EDF15</code></strong><br/>
+<strong>Properties: R/W</strong><br/>
+<strong>Value: 1-byte signed integer</strong> </p>
+
+<p>This characteristic can be used to read or set the TX-Power level of the meter&#8217;s
+Bluetooth radio. It has 4 allowed values:</p>
+
+<ul>
+<li>0x04: 4 dBm</li>
+<li>0x00: 0 dBm (default)</li>
+<li>0xFA: &#8211;6 dBm</li>
+<li>0xE9: &#8211;23 dBm</li>
+</ul>
+
+<p>Any value written to this characteristic is not saved after power-off; the value reverts
+to the default of 0dBm on power-on.</p>
+
+<p>The iDVM&#8211;510 also supports the standard Tx-Power characteristic (<code>2A07</code>), but that
+characteristic is read-only. This characteristic can be used to change the transmit power.</p>
+
+<h3 id="anameconnectiontimeoutcharaconnectiontimeout"><a name="ConnectionTimeoutChar"></a>Connection Timeout</h3>
+
+<p><strong>UUID: <code>1000EEEF-0A12-8B1D-4ACC-E552A12EDF15</code></strong><br/>
+<strong>Properties: R/W</strong><br/>
+<strong>Value: 2-byte unsigned integer</strong> </p>
+
+<p>The time in seconds to advertise and wait for a client to connect, including an initial
+fast advertising period (20ms interval) of 60s and a secondary slow advertising period
+(1285ms). The default value for this characteristic is 0, which means indefinite
+advertising.</p>
+
+<p>The minimum non-zero value for this characteristic is 30. This value is written to flash
+and will be saved after power-off.</p>
+
+<h3 id="anamedevicenamecharadevicename"><a name="DeviceNameChar"></a>Device Name</h3>
+
+<p><strong>UUID: <code>1000EEF0-0A12-8B1D-4ACC-E552A12EDF15</code></strong><br/>
+<strong>Properties: R/W</strong><br/>
+<strong>Value: 20 bytes ASCII (max)</strong> </p>
+
+<p>Writing to this characteristic allows a client to set the GAP device name, which is usually
+displayed in most bluetooth-device lists in client apps. This value is saved to flash
+and will be saved after power-off.</p>
+
+<p>Note that many mobile devices and apps don&#8217;t update this value immediately; either a timeout
+must pass, or the user has to turn Bluetooth off and back on, to update device name values.</p>
+
+<h1 id="batteryservice">Battery Service</h1>
+
+<p><strong>Service UUID: <code>180F</code></strong></p>
+
+<p>This is a standard Bluetooth-LE Battery Service.</p>
+
+<h3 id="anamebatterylevelcharabatterylevel"><a name="BatteryLevelChar"></a>Battery Level</h3>
+
+<p><strong>UUID: <code>2A19</code></strong><br/>
+<strong>Properties: R/N</strong><br/>
+<strong>Value: 1-byte unsigned int</strong> </p>
+
+<p>This characteristic reports the state of the meter&#8217;s 9V battery; the value is a percentage
+with a max of 100.</p>
+    </div>
+</body>
+</html>
